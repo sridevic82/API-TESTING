@@ -1,0 +1,174 @@
+{
+	"info": {
+		"_postman_id": "8c3de2ca-b6a0-4480-bdbc-3741fdacbaf7",
+		"name": "jira",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "13220307"
+	},
+	"item": [
+		{
+			"name": "create issue",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201-Successful\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});\r",
+							"var res=pm.response.json();\r",
+							"var ids=res.key\r",
+							"console.log(ids)\r",
+							"pm.globals.set(\"Issue_id\",ids);\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"fields\": {\r\n        \"project\":{\r\n            \"key\": \"TEST\"\r\n        },\r\n        \"summary\": \"create issue in RA project\",\r\n        \"description\": \"Creating of an issue using project keys and issue type names using the REST API\",\r\n        \"issuetype\": {\r\n            \"name\": \"Bug\"\r\n        }\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{jiraurl}}/rest/api/2/issue/",
+					"host": [
+						"{{jiraurl}}"
+					],
+					"path": [
+						"rest",
+						"api",
+						"2",
+						"issue",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "update",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"fields\": {\r\n        \"description\": \"Bug creation Using REST API for testing\"\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{jiraurl}}/browse/{{Issue_id}}",
+					"host": [
+						"{{jiraurl}}"
+					],
+					"path": [
+						"browse",
+						"{{Issue_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 204-deleted successfully\", function () {\r",
+							"    pm.response.to.have.status(204);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{jiraurl}}/rest/api/2/{{field}}/{{Issue_id}}",
+					"host": [
+						"{{jiraurl}}"
+					],
+					"path": [
+						"rest",
+						"api",
+						"2",
+						"{{field}}",
+						"{{Issue_id}}"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "basic",
+		"basic": [
+			{
+				"key": "password",
+				"value": "ATATT3xFfGF0NH3n9J8KZnjeyBnDO7rQZHdv7SWNgowil0YHCK7S7j_F5ohETobNgoTMzT7DtYCaj_D-pbQSYTadGvr1wiGKTsnVAaNtohEZ6pnhaAXkUp68k7yuIkeY6MHbL5dVYd_JUZs4R2iDnhU9RnFttgxynIFRLmrEpcQItM542xn8RI4=6CA36678",
+				"type": "string"
+			},
+			{
+				"key": "username",
+				"value": "sridevic82@gmail.com",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "field",
+			"value": "issue",
+			"type": "string"
+		}
+	]
+}
